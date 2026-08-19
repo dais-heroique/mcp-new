@@ -28,10 +28,10 @@ Use `--fail-under 55` in CI to block a release below the chosen threshold. The i
 |---|---|
 | [`mcp-readiness/`](mcp-readiness/) | Python analyzer, score model, examples, tests and report artifacts |
 | [`.github/mcp-readiness.yml.example`](.github/mcp-readiness.yml.example) | Workflow CI à placer dans `.github/workflows/` avec la permission GitHub workflows |
-| [`business/`](business/) | Offer, landing page, outreach, demo and legal review notes |
+| [`business/`](business/) | Offer, landing page, outreach, prospect pipeline, launch kit, payment and legal review notes |
 | [`RESEARCH_NOTES.md`](RESEARCH_NOTES.md) | MCP/EMA research basis |
 | [`NEXT_STEPS.md`](NEXT_STEPS.md) | Product validation and commercial next steps |
 
 ## Product validation thesis
 
-The commercial hypothesis is not “a scanner that produces a report.” It is a repeatable **pre-publication validation standard** for MCP servers. The next validation step is to interview and pilot with 10–20 people or companies that actively build MCP servers, testing willingness to pay for a bounded readiness review before expanding into hosted history, GitHub integration, monitoring, organization rules, SSO and private deployment.
+The commercial hypothesis is not “a scanner that produces a report.” It is a repeatable **pre-publication validation standard** for MCP servers. The next validation step is to interview and pilot with 10–20 people or companies that actively build MCP servers, testing willingness to pay for a bounded readiness review before expanding into hosted history, GitHub integration, monitoring, organization rules, SSO and private deployment. The prospect pipeline, launch messages and Bitcoin payment instructions are in `business/`; no outreach or payment is executed automatically.
