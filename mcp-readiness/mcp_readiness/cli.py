@@ -14,6 +14,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--demo", action="store_true")
     p.add_argument("--i-have-authorization", action="store_true", help="Confirm written owner consent")
     p.add_argument("--apply", action="store_true", help="Reserved and always rejected")
+    p.add_argument("--fail-under", type=int, default=None, help="Exit 1 when score is below this threshold")
     args = p.parse_args(argv)
     if args.apply:
         print("Refusing --apply: this release is read-only and never modifies customer infrastructure.", file=sys.stderr); return 2
@@ -24,7 +25,10 @@ def main(argv: list[str] | None = None) -> int:
     if not args.demo and not args.i_have_authorization:
         print("Refusing to scan: provide --i-have-authorization after obtaining written owner consent.", file=sys.stderr); return 2
     data = analyze(target); write_reports(data, Path(args.output))
-    print(f"Analyzed: {target}\nReports: {Path(args.output).resolve() / 'report.md'} and report.json\n{DISCLAIMER}")
+    score = data["score"]
+    print(f"Analyzed: {target}\nScore: {score['score']}/100\nGate: {score['gate']}\nReports: {Path(args.output).resolve()}\n{DISCLAIMER}")
+    if args.fail_under is not None and score["score"] < args.fail_under:
+        return 1
     return 0
 
 if __name__ == "__main__": raise SystemExit(main())

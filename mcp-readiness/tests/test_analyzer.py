@@ -6,6 +6,8 @@ def test_clean_server():
     data = analyze(ROOT / "examples" / "clean-server")
     assert finding(data, "transport")["status"] == "OK"
     assert finding(data, "observability")["status"] == "OK"
+    assert 0 <= data["score"]["score"] <= 100
+    assert data["score"]["gate"] in {"BLOCKED", "REVIEW", "READY_WITHIN_CHECKLIST"}
 def test_legacy_server():
     data = analyze(ROOT / "examples" / "legacy-server")
     assert finding(data, "transport")["status"] == "Bloquant"
@@ -15,3 +17,4 @@ def test_ambiguous_server():
     data = analyze(ROOT / "examples" / "ambiguous-server")
     assert finding(data, "transport")["status"] == "À surveiller"
     assert finding(data, "authorization")["status"] == "Bloquant"
+    assert data["score"]["gate"] == "BLOCKED"

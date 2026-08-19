@@ -5,6 +5,7 @@ import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
+from .scoring import calculate_score
 
 BASELINE = "2026-07-28"
 
@@ -76,12 +77,14 @@ def analyze(root: str | Path) -> dict:
     findings.append(Finding("observability", "OK" if logging else "À surveiller", "Journalisation et audit trail", "Des marqueurs sont présents." if logging else "Aucune journalisation explicite trouvée.", logging, "Journaliser identité, outil, résultat, durée et corrélation sans secrets.", reference="https://modelcontextprotocol.io/specification/2026-07-28/"))
     sdk = _evidence(texts, [r"modelcontextprotocol", r"@modelcontextprotocol", r"mcp-server", r"mcp>=", r"mcp=="])
     findings.append(Finding("sdk", "À surveiller" if sdk else "Bloquant", "Version SDK", "Référence SDK trouvée; comparaison exacte à confirmer." if sdk else "Aucune dépendance SDK MCP identifiable.", sdk, "Épingler un SDK compatible avec la baseline et exécuter les tests d'interopérabilité.", reference="https://github.com/modelcontextprotocol/python-sdk"))
-    return {"schema_version": "1.0", "baseline": BASELINE, "target": str(root), "findings": [f.to_dict() for f in findings], "evidence_summary": {"files_scanned": len(texts)}}
+    finding_data = [f.to_dict() for f in findings]
+    return {"schema_version": "1.1", "baseline": BASELINE, "target": str(root), "findings": finding_data, "score": calculate_score(finding_data), "evidence_summary": {"files_scanned": len(texts)}}
 
 
 def markdown_report(data: dict) -> str:
     fs = data["findings"]; blockers = sum(f["status"] == "Bloquant" for f in fs); watch = sum(f["status"] == "À surveiller" for f in fs)
-    lines = ["# MCP Release Readiness — Rapport statique", "", "> **Disclaimer.** Ce document est une checklist heuristique. Il ne constitue ni un audit de sécurité certifié, ni un conseil juridique, et n'affirme jamais la conformité.", "", f"**Baseline :** `{data['baseline']}`  \n**Cible :** `{data['target']}`  \n**Fichiers analysés :** {data['evidence_summary']['files_scanned']}", "", "## Résumé exécutif", "", f"L'analyse a relevé **{blockers} Bloquant(s)** et **{watch} point(s) À surveiller**. Une validation humaine reste nécessaire.", "", "## Matrice des écarts", "", "| Dimension | Statut | Écart / justification | Propriétaire |", "|---|---|---|---|"]
+    score = data["score"]
+    lines = ["# MCP Production Readiness — Rapport statique", "", "> **Disclaimer.** Ce document est une checklist heuristique. Il ne constitue ni un audit de sécurité certifié, ni un conseil juridique, et n'affirme jamais la conformité.", "", f"**MCP Readiness Score : {score['score']}/100**  \n**Gate :** `{score['gate']}`  \n**Baseline :** `{data['baseline']}`  \n**Cible :** `{data['target']}`  \n**Fichiers analysés :** {data['evidence_summary']['files_scanned']}", "", "## Résumé exécutif", "", f"L'analyse a relevé **{blockers} Bloquant(s)** et **{watch} point(s) À surveiller**. Le gate est **{score['gate']}**; une validation humaine reste nécessaire.", "", "## Matrice des écarts", "", "| Dimension | Statut | Écart / justification | Propriétaire |", "|---|---|---|---|"]
     for f in fs: lines.append(f"| {f['dimension']} | **{f['status']}** | {f['title']} — {f['justification']} | {f['owner']} |")
     lines += ["", "## Preuves et remédiations", ""]
     for f in fs:
@@ -90,7 +93,24 @@ def markdown_report(data: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _badge_svg(score: int, gate: str) -> str:
+    color = "#2da44e" if gate == "READY_WITHIN_CHECKLIST" else ("#bf8700" if gate == "REVIEW" else "#cf222e")
+    label = f"MCP readiness {score}/100"
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="190" height="20" role="img" aria-label="{label}"><title>{label}</title><rect width="190" height="20" rx="3" fill="#555"/><rect x="118" width="72" height="20" rx="3" fill="{color}"/><text x="8" y="14" fill="#fff" font-family="Verdana" font-size="11">MCP readiness</text><text x="130" y="14" fill="#fff" font-family="Verdana" font-size="11">{score}/100</text></svg>'''
+
+
+def _guided_fixes(data: dict) -> str:
+    lines = ["# Guided fixes", "", "> These are review-ready suggestions only. No source file or customer system is modified automatically.", ""]
+    for finding in data["findings"]:
+        if finding["status"] == "OK":
+            continue
+        lines += [f"## {finding['dimension']} — {finding['title']}", "", f"**Why it matters:** {finding['justification']}", "", f"**Suggested next change:** {finding['remediation']}", "", "**Human approval required:** inspect the proposed change, add tests, and open the pull request through the team’s normal review process.", ""]
+    return "\n".join(lines)
+
+
 def write_reports(data: dict, output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
     (output / "report.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     (output / "report.md").write_text(markdown_report(data), encoding="utf-8")
+    (output / "badge.svg").write_text(_badge_svg(data["score"]["score"], data["score"]["gate"]), encoding="utf-8")
+    (output / "guided-fixes.md").write_text(_guided_fixes(data), encoding="utf-8")
