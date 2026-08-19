@@ -1,26 +1,31 @@
-# MCP Production Readiness — Offre
+# MCP Production Readiness — Offre de lancement
 
-> **Positionnement.** La couche de validation avant publication des serveurs MCP : score, gate CI, badge, corrections guidées et dossier de preuve. Le produit n’est ni un audit de sécurité certifié, ni une certification de conformité, ni un conseil juridique.
+> **Wedge commercial :** “Can I safely publish this MCP?” Le service aide une équipe à décider si un serveur MCP est prêt à publier, sans prétendre certifier sa sécurité ou sa conformité.
 
-## Hypothèses à valider par entretiens et pilotes
+## Offre à vendre maintenant : MCP Readiness Audit
 
-| Palier | Hypothèse | Livrables |
+| Élément | Contenu |
+|---|---|
+| Prix de lancement à tester | 149–499 € par dépôt et par audit |
+| Entrée | Dépôt fourni avec autorisation écrite, périmètre et branche définis |
+| Livrables | Score sur 100, gate, rapport Markdown/JSON, badge, principaux écarts, corrections guidées et restitution |
+| Durée indicative | Quelques jours ouvrés, à ajuster après les premiers pilotes |
+| Exclusions | Pentest, certification, conseil juridique, scan distant non autorisé et modification automatique |
+
+La priorité est d’obtenir **3 à 5 paiements réels** avant de construire une plateforme SaaS complète. Le prix est une hypothèse à tester, pas une garantie de résultat.
+
+## Conversion après le premier audit
+
+| Palier | Hypothèse à tester | Promesse |
 |---|---:|---|
-| Gratuit / public | 0 € | Scan autorisé, score basique, cinq écarts principaux et badge expérimental |
-| Developer | 19–29 €/mois | Scans récurrents, historique local, badge, intégration GitHub Actions et corrections guidées |
-| Team | 99–299 €/mois | Plusieurs dépôts, règles CI, monitoring, alertes, rapports et historique d’équipe |
-| Enterprise | 5 000–30 000 €/an | Audit MCP accompagné, règles personnalisées, SSO, déploiement privé, rapports sécurité et SLA |
+| Pro | 49–99 €/mois | Check sur les PR, historique et badge |
+| Team | 199–499 €/mois | Plusieurs dépôts, règles d’équipe, alertes et rapports |
+| Enterprise | Plusieurs milliers €/an | Audit accompagné, règles privées, SSO, déploiement privé et SLA |
 
-Ces montants sont des **hypothèses de découverte**, jamais des prix garantis. Les pilotes doivent mesurer le coût évité, la fréquence des scans, les exigences de confidentialité et la volonté de payer avant d’investir dans une plateforme hébergée.
+## Parcours commercial
 
-## Ce qui existe dans V1
-
-Le CLI local analyse un dépôt autorisé en lecture seule, calcule un score pondéré sur 100, produit un gate `BLOCKED`, `REVIEW` ou `READY_WITHIN_CHECKLIST`, génère un badge SVG, un rapport Markdown/JSON et des corrections guidées. GitHub Actions peut bloquer un pipeline sous un seuil choisi.
-
-## Roadmap à valider
-
-La prochaine étape est un historique de scores par commit, puis une intégration GitHub plus riche, des règles personnalisées par organisation, un monitoring récurrent, des alertes et un mode privé. L’auto-fix doit rester borné à des suggestions ou à des pull requests explicitement approuvées; aucune mutation automatique de l’infrastructure cliente n’est acceptable par défaut.
+Commencer par une démonstration sur l’exemple embarqué, vendre un audit borné et demander après restitution : **« Voulez-vous que ce check tourne automatiquement sur chaque PR ? »** Si la réponse est positive, proposer le workflow CI et le palier récurrent. La demande de monitoring, SSO et dashboard doit venir des pilotes, pas d’une projection technique.
 
 ## English positioning
 
-**MCP Production Readiness** is a pre-publication validation standard for MCP servers: score, CI gate, badge, guided fixes and evidence pack. The current release is local-first and read-only. It is not a certified security audit, compliance certification, legal advice or guarantee.
+**MCP Readiness Audit** is a paid pre-publication review for MCP servers. It delivers a score, evidence pack, findings, badge and guided fixes. The launch hypothesis is €149–€499 per repository, followed by Pro (€49–€99/month), Team (€199–€499/month) and enterprise pilots. Prices must be validated through real paid pilots.

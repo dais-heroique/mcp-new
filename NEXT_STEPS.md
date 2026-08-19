@@ -1,28 +1,24 @@
-# Next steps — MCP Production Readiness
+# Next steps — priorité aux premiers paiements
 
 ## Prêt immédiatement
 
-La V1 locale produit un score sur 100, un gate de release, un badge SVG, un rapport Markdown/JSON et un fichier de corrections guidées. Le workflow GitHub Actions exécute les tests et peut bloquer une release sous un seuil. Le système reste read-only, local-first et exige une autorisation explicite hors démo.
+Le dépôt contient un score MCP Readiness, un gate CI, un badge, des rapports, des corrections guidées et un parcours `Fix → Preview diff → Test → Create PR` sécurisé. Le preview ne modifie jamais le dépôt source, exécute les tests sur une copie temporaire et refuse la création automatique de PR.
 
-## À valider humainement
+## Validation humaine obligatoire
 
-Le score et ses pondérations doivent être confrontés à des équipes qui construisent réellement des MCP. Les prix et les paliers doivent être testés par entretiens. Un juriste doit relire la formulation “readiness”, le badge, les rapports, les limites de responsabilité et la rétention des dépôts. Les règles de détection doivent être évaluées sur de vrais dépôts autorisés pour mesurer les faux positifs.
+Faire relire l’offre, le contrat d’audit, les règles de rétention, le badge et les limites juridiques. Faire tester les corrections proposées sur des dépôts autorisés. Mesurer les faux positifs et la corrélation entre score et revue réelle. Les prix sont des hypothèses et ne doivent pas être présentés comme une garantie de résultat.
 
-## Plan de validation sur 14 jours
+## Plan commercial immédiat
 
-| Période | Action | Résultat attendu |
+| Étape | Action | Critère de décision |
 |---|---|---|
-| J1–J2 | Identifier 10–20 personnes ou entreprises qui construisent des MCP et qualifier leurs workflows GitHub/CI. | Liste de constructeurs actifs et problèmes récurrents. |
-| J3–J4 | Mener cinq entretiens centrés sur les releases bloquées, les audits et les outils internes actuels. | Mesure de la douleur et des alternatives. |
-| J5 | Montrer le score, le badge et le gate sur un dépôt d’exemple. | Objections et métriques jugées utiles. |
-| J6–J7 | Proposer deux pilotes bornés, locaux et autorisés. | Premières preuves de valeur. |
-| J8 | Comparer les résultats avec la revue humaine des équipes. | Faux positifs et pondérations à corriger. |
-| J9–J10 | Tester les hypothèses de prix Developer, Team et audit accompagné. | Signal de volonté de payer. |
-| J11 | Ajouter les contrôles demandés par les pilotes, sans élargir les permissions par défaut. | V1.1 priorisée par la demande réelle. |
-| J12 | Tester le workflow CI sur une branche et documenter le seuil de gate. | Parcours d’installation reproductible. |
-| J13 | Demander une recommandation ou une introduction à un autre constructeur MCP. | Début de canal commercial. |
-| J14 | Décider : continuer les pilotes, ajuster l’offre ou arrêter une fonctionnalité non valorisée. | Décision fondée sur preuves plutôt que projection. |
+| 1 | Identifier 10–20 développeurs ou entreprises qui construisent réellement des MCP. | Au moins dix conversations qualifiées. |
+| 2 | Montrer le score et le preview de diff sur un exemple proche de leur workflow. | Le problème est reconnu sans longue explication. |
+| 3 | Vendre un MCP Readiness Audit à 149–499 € par dépôt. | Obtenir les premiers paiements, pas seulement des compliments. |
+| 4 | Livrer rapidement score, rapport, badge, guided fixes et restitution. | Le client confirme une décision ou une action évitée. |
+| 5 | Demander si le check doit tourner sur chaque PR. | Signal de demande récurrente. |
+| 6 | Viser 3–5 clients payants avant d’élargir le produit. | Décision fondée sur revenus réels. |
 
-## Roadmap conditionnelle
+## Après validation
 
-Si les pilotes confirment une demande récurrente, construire dans cet ordre : historique par commit, intégration GitHub enrichie, règles d’organisation, monitoring et alertes, puis SSO/déploiement privé. L’auto-fix doit d’abord produire des suggestions; toute création de PR doit être explicitement déclenchée et relue par un humain.
+Si les paiements et la demande récurrente sont confirmés, prioriser l’historique par commit, l’intégration GitHub plus riche, les règles d’équipe, les alertes et le monitoring. Ne construire SSO, déploiement privé, dashboard complet ou nombreuses intégrations qu’après preuve de demande.
