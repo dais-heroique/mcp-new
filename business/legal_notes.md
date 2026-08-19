@@ -1,0 +1,3 @@
+# Points à faire relire par un juriste
+
+Ce document ne constitue pas un avis juridique. Faire relire avant toute vente : la description du service et sa distinction avec un audit de sécurité; la limitation de responsabilité et les plafonds; l’absence de garantie de conformité; le périmètre d’autorisation, le dépôt, la branche, la durée et la révocation; les données traitées, secrets, données personnelles, chiffrement, accès, rétention et suppression; la propriété intellectuelle des rapports et snippets; les conditions d’une éventuelle écriture future; les conditions de résiliation, support et droit applicable; et les mentions du site, formulaire de contact et consentement marketing.

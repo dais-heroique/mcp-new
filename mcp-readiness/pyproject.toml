@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-readiness"
+version = "0.1.0"
+description = "Read-only MCP release-readiness static analyzer"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+mcp-readiness = "mcp_readiness.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["mcp_readiness*"]
